@@ -93,7 +93,7 @@ Bulk Distribute CW721 NFTs:
 json
 Copy code
 `{
-  "bulk_distribute_cw721": {
+  "transferNfts": {
     "contract_addr": "sei1...",
     "recipients": [
       {"address": "sei1...", "token_id": "nft123"},

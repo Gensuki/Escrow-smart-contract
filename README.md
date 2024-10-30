@@ -1,85 +1,109 @@
-# CosmWasm Starter Pack
+#   Smart contract for escrowing cw721 & cw20
 
-This is a template to build smart contracts in Rust to run inside a
-[Cosmos SDK](https://github.com/cosmos/cosmos-sdk) module on all chains that enable it.
-To understand the framework better, please read the overview in the
-[cosmwasm repo](https://github.com/CosmWasm/cosmwasm/blob/master/README.md),
-and dig into the [cosmwasm docs](https://www.cosmwasm.com).
-This assumes you understand the theory and just want to get coding.
+A Rust-based smart contract on the Sei blockchain that functions as an escrow for managing assets in raffle applications. This contract supports native tokens, CW20 tokens, and CW721 NFTs, enabling secure storage and distribution for raffle events. It is designed to allow authorized raffle operators to handle funds and distribute winnings efficiently.
 
-## Creating a new repo from template
+## Multi-Asset Escrow
 
-Assuming you have a recent version of Rust and Cargo installed
-(via [rustup](https://rustup.rs/)),
-then the following should get you a new repo to start a contract:
+Native Tokens: Accepts and securely holds Sei's native tokens.
+CW20 Tokens: Supports escrow for CW20-compliant tokens.
+CW721 NFTs: Allows storage of CW721 NFTs for raffles or other events.
 
-Install [cargo-generate](https://github.com/ashleygwilliams/cargo-generate) and cargo-run-script.
-Unless you did that before, run this line now:
+## Raffle and Distribution Management
+Bulk Distributions: Optimized for gas-efficient bulk transactions:
+Bulk Native Send: Distribute native tokens to multiple winners in one call.
+Bulk CW20 Send: Send CW20 tokens to multiple addresses at once.
+Bulk CW721 Send: Transfer NFTs in batch, allowing winners to claim their prizes seamlessly.
 
-```sh
-cargo install cargo-generate --features vendored-openssl
-cargo install cargo-run-script
-```
+## Access Control
+Raffle Operator: Only the raffle smart contract operator can call bulk send functions, ensuring authorized handling of escrowed assets.
+Escrow Security: Ensures funds are securely held until predefined conditions, like raffle completion, are met.
 
-Now, use it to create your new contract.
-Go to the folder in which you want to place it and run:
+## Contract Functions
 
-**Latest**
+Deposit:
 
-```sh
-cargo generate --git https://github.com/CosmWasm/cw-template.git --name PROJECT_NAME
-```
+Allows raffle hosts or authorized users to deposit native tokens, CW20 tokens, or CW721 NFTs into the escrow account.
+Withdraw:
 
-For cloning minimal code repo:
+Provides a secure withdrawal method for raffle hosts in case of raffle cancellation or other valid conditions.
+Bulk Distribution:
 
-```sh
-cargo generate --git https://github.com/CosmWasm/cw-template.git --name PROJECT_NAME -d minimal=true
-```
+Bulk Distribute Native: Sends native tokens to multiple recipients in one transaction.
+Bulk Distribute CW20: Transfers CW20 tokens to multiple winners simultaneously.
+Bulk Distribute CW721: Batch transfers NFTs to raffle winners.
 
-You will now have a new folder called `PROJECT_NAME` (I hope you changed that to something else)
-containing a simple working contract and build system that you can customize.
+#Usage
+Setup
+Install Rust and Sei Dependencies:
 
-## Create a Repo
+Ensure you have Rust installed. Follow the Rust installation guide.
+Install Sei CLI and any required dependencies.
+Clone the Repository:
 
-After generating, you have a initialized local git repo, but no commits, and no remote.
-Go to a server (eg. github) and create a new upstream repo (called `YOUR-GIT-URL` below).
-Then run the following:
+bash
+Copy code
+git clone https://github.com/yourusername/sei-escrow-raffle.git
+cd sei-escrow-raffle
+Build the Contract:
 
-```sh
-# this is needed to create a valid Cargo.lock file (see below)
-cargo check
-git branch -M main
-git add .
-git commit -m 'Initial Commit'
-git remote add origin YOUR-GIT-URL
-git push -u origin main
-```
+bash
+Copy code
+cargo build --release
+Deploy:
 
-## CI Support
+Deploy the contract to Sei following the Sei deployment guide.
+Example Calls
+Deposit Tokens:
 
-We have template configurations for both [GitHub Actions](.github/workflows/Basic.yml)
-and [Circle CI](.circleci/config.yml) in the generated project, so you can
-get up and running with CI right away.
+json
+Copy code
+{
+  "deposit": {
+    "amount": "1000000",
+    "denom": "usei"
+  }
+}
+Bulk Distribute Native:
 
-One note is that the CI runs all `cargo` commands
-with `--locked` to ensure it uses the exact same versions as you have locally. This also means
-you must have an up-to-date `Cargo.lock` file, which is not auto-generated.
-The first time you set up the project (or after adding any dep), you should ensure the
-`Cargo.lock` file is updated, so the CI will test properly. This can be done simply by
-running `cargo check` or `cargo unit-test`.
+json
+Copy code
+{
+  "bulk_distribute_native": {
+    "recipients": [
+      {"address": "sei1...", "amount": "500000"},
+      {"address": "sei1...", "amount": "500000"}
+    ]
+  }
+}
+Bulk Distribute CW20 Tokens:
 
-## Using your project
+json
+Copy code
+{
+  "bulk_distribute_cw20": {
+    "contract_addr": "sei1...",
+    "recipients": [
+      {"address": "sei1...", "amount": "100"},
+      {"address": "sei1...", "amount": "200"}
+    ]
+  }
+}
+Bulk Distribute CW721 NFTs:
 
-Once you have your custom repo, you should check out [Developing](./Developing.md) to explain
-more on how to run tests and develop code. Or go through the
-[online tutorial](https://docs.cosmwasm.com/) to get a better feel
-of how to develop.
-
-[Publishing](./Publishing.md) contains useful information on how to publish your contract
-to the world, once you are ready to deploy it on a running blockchain. And
-[Importing](./Importing.md) contains information about pulling in other contracts or crates
-that have been published.
-
-Please replace this README file with information about your specific project. You can keep
-the `Developing.md` and `Publishing.md` files as useful references, but please set some
-proper description in the README.
+json
+Copy code
+{
+  "bulk_distribute_cw721": {
+    "contract_addr": "sei1...",
+    "recipients": [
+      {"address": "sei1...", "token_id": "nft123"},
+      {"address": "sei1...", "token_id": "nft456"}
+    ]
+  }
+}
+Security and Compliance
+Access Control: Only the raffle operator can call distribution functions.
+Asset Tracking: Deposits are tracked by type, ensuring they are securely held until distribution conditions are met.
+Sei Standards: Fully compliant with Sei’s best practices for smart contract security and efficiency.
+License
+This project is licensed under the MIT License. See the LICENSE file for details.

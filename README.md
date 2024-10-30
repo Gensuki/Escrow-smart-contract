@@ -31,7 +31,7 @@ Bulk Distribution:
 Bulk Distribute Native: Sends native tokens to multiple recipients in one transaction.
 Bulk Distribute CW20: Transfers CW20 tokens to multiple winners simultaneously.
 Bulk Distribute CW721: Batch transfers NFTs to raffle winners.
-
+Fund splitter: its allow operator or admin to split & distribution the funds across different wallets.
 #Usage
 Setup
 Install Rust and Sei Dependencies:

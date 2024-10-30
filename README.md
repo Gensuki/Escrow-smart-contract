@@ -34,7 +34,7 @@ Bulk Distribute CW721: Batch transfers NFTs to raffle winners.
 Fund splitter: its allow operator or admin to split & distribution the funds across different wallets.
 
 
-#Usage
+##Usage
 Setup
 Install Rust and Sei Dependencies:
 

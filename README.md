@@ -42,13 +42,13 @@ Clone the Repository:
 
 bash
 Copy code
-git clone https://github.com/yourusername/sei-escrow-raffle.git
-cd sei-escrow-raffle
+`git clone https://github.com/yourusername/sei-escrow-raffle.git
+cd sei-escrow-raffle`
 Build the Contract:
 
 bash
 Copy code
-cargo build --release
+`cargo build --release`
 Deploy:
 
 Deploy the contract to Sei following the Sei deployment guide.
@@ -57,29 +57,29 @@ Deposit Tokens:
 
 json
 Copy code
-{
+`{
   "deposit": {
     "amount": "1000000",
     "denom": "usei"
   }
-}
+}`
 Bulk Distribute Native:
 
 json
 Copy code
-{
+`{
   "bulk_distribute_native": {
     "recipients": [
       {"address": "sei1...", "amount": "500000"},
       {"address": "sei1...", "amount": "500000"}
     ]
   }
-}
+}`
 Bulk Distribute CW20 Tokens:
 
 json
 Copy code
-{
+`{
   "bulk_distribute_cw20": {
     "contract_addr": "sei1...",
     "recipients": [
@@ -87,12 +87,12 @@ Copy code
       {"address": "sei1...", "amount": "200"}
     ]
   }
-}
+}`
 Bulk Distribute CW721 NFTs:
 
 json
 Copy code
-{
+`{
   "bulk_distribute_cw721": {
     "contract_addr": "sei1...",
     "recipients": [
@@ -100,7 +100,12 @@ Copy code
       {"address": "sei1...", "token_id": "nft456"}
     ]
   }
-}
+}`
+
+## Sei Atlantic contract Address
+
+`https://www.seiscan.app/atlantic-2/contracts/sei1m4ex7c7mlny7azcffgng5gy8ehxtrpwet479ve4t03ux46sw60zsd70cnj`
+
 Security and Compliance
 Access Control: Only the raffle operator can call distribution functions.
 Asset Tracking: Deposits are tracked by type, ensuring they are securely held until distribution conditions are met.
